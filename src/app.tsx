@@ -11,6 +11,7 @@ const getBang = (q: string): { q: string; b: string | null } => {
 };
 
 const handleSearch = (q: string) => {
+  if (!q.trim()) return;
   const bang = getBang(q);
   let searchUrl: string | undefined;
   if (bang.b) {
@@ -25,6 +26,7 @@ const handleSearch = (q: string) => {
 
 export default function App() {
   const [input, setInput] = createSignal("");
+  const [copied, setCopied] = createSignal(false);
 
   const search = new URLSearchParams(window.location.search);
   const q = search.get("q");
@@ -34,9 +36,13 @@ export default function App() {
 
   const templateUrl = `${window.location.origin}?q=%s`;
 
+  let timeout: ReturnType<typeof setTimeout> | undefined;
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(templateUrl);
+      setCopied(true);
+      clearTimeout(timeout);
+      timeout = setTimeout(() => setCopied(false), 1000);
     } catch {}
   };
 
@@ -50,8 +56,13 @@ export default function App() {
         }}
       >
         <h1 class="title">Search</h1>
-        <input type="search" placeholder="🔍" onInput={(e) => setInput(e.target.value)} />
-        <button type="button" class="template" onClick={handleCopy} title="Click to copy">
+        <input autofocus type="search" onInput={(e) => setInput(e.target.value)} />
+        <button
+          type="button"
+          class="template outline secondary"
+          onClick={handleCopy}
+          data-tooltip={copied() ? "Copied" : "Click to copy"}
+        >
           {templateUrl}
         </button>
       </form>
