@@ -1,5 +1,5 @@
 :root {
-  --pico-font-size: 87.5%;
+  --pico-font-size: 100%;
 }
 
 html,
@@ -8,18 +8,21 @@ body,
   height: 100%;
 }
 
-body {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
-.main-container {
+.index-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.settings-container {
+  padding: 1rem;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .title {
