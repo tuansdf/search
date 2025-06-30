@@ -17,3 +17,13 @@ export const validateUrl = (url: string) => {
     return false;
   }
 };
+
+export const getBangs = async (): Promise<{ u: string; t: string }[]> => {
+  try {
+    const response = await fetch("/data.json");
+    if (!response.ok) return [];
+    return response.json();
+  } catch (e) {
+    return [];
+  }
+};

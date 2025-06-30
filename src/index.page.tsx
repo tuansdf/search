@@ -1,20 +1,19 @@
-import { bangs } from "@/bangs.ts";
-import { getUrlStore, PLACEHOLDER } from "@/utils.ts";
+import { getBangs, getUrlStore, PLACEHOLDER } from "@/utils.ts";
 import { A } from "@solidjs/router";
-import { createSignal, Show } from "solid-js";
+import { createResource, createSignal, Show } from "solid-js";
 
-const getBang = (q: string): { q: string; b: string | null } => {
+const getBang = (q: string): { q: string; t: string | null } => {
   const match = q.match(/(?<=\s|^)!(\b[a-zA-Z]+\b)(?=\s|$)/);
-  if (!match) return { q, b: null };
-  return { q: q.replace(/(?<=\s|^)!(\b[a-zA-Z]+\b)(\s?)/, ""), b: match[1] };
+  if (!match) return { q, t: null };
+  return { q: q.replace(/(?<=\s|^)!(\b[a-zA-Z]+\b)(\s?)/, ""), t: match[1] };
 };
 
-const handleSearch = (q: string, isAuto?: boolean) => {
+const handleSearch = (data: { t: string; u: string }[], q: string, isAuto?: boolean) => {
   if (!q.trim()) return;
   const bang = getBang(q);
   let searchUrl: string | undefined;
-  if (bang.b) {
-    searchUrl = String(bangs?.[bang.b]?.u || "");
+  if (bang.t) {
+    searchUrl = String(data.find((item) => item.t === bang.t)?.u || "");
   }
   if (searchUrl) {
     searchUrl = searchUrl.replace(PLACEHOLDER, bang.q.trim());
@@ -29,12 +28,13 @@ const handleSearch = (q: string, isAuto?: boolean) => {
 };
 
 export default function IndexPage() {
+  const [data] = createResource(getBangs);
   const [input, setInput] = createSignal("");
 
   const search = new URLSearchParams(window.location.search);
   const q = search.get("q");
   if (q) {
-    handleSearch(q, true);
+    handleSearch(data() || [], q, true);
   }
 
   return (
@@ -43,7 +43,7 @@ export default function IndexPage() {
         class="index-container"
         onSubmit={(e) => {
           e.preventDefault();
-          handleSearch(input());
+          handleSearch(data() || [], input());
         }}
       >
         <h1>Search</h1>
