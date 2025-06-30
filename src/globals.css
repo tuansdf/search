@@ -24,13 +24,3 @@ body,
   max-width: 1000px;
   margin: 0 auto;
 }
-
-.title {
-  font-size: 3rem;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.template {
-  margin-bottom: 0;
-}

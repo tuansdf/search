@@ -1,9 +1,7 @@
 import { bangs } from "@/bangs.ts";
+import { getUrlStore, PLACEHOLDER } from "@/utils.ts";
 import { A } from "@solidjs/router";
 import { createSignal, Show } from "solid-js";
-
-const PLACEHOLDER = "{{{s}}}";
-const DEFAULT_URL = `https://www.google.com/search?q={{{s}}}`;
 
 const getBang = (q: string): { q: string; b: string | null } => {
   const match = q.match(/(?<=\s|^)!(\b[a-zA-Z]+\b)(?=\s|$)/);
@@ -21,7 +19,7 @@ const handleSearch = (q: string, isAuto?: boolean) => {
   if (searchUrl) {
     searchUrl = searchUrl.replace(PLACEHOLDER, bang.q.trim());
   } else {
-    searchUrl = DEFAULT_URL.replace(PLACEHOLDER, q.trim());
+    searchUrl = getUrlStore().replace(PLACEHOLDER, q.trim());
   }
   if (isAuto) {
     window.location.replace(searchUrl);
@@ -48,9 +46,9 @@ export default function IndexPage() {
           handleSearch(input());
         }}
       >
-        <h1 class="title">Search</h1>
+        <h1>Search</h1>
         <input autofocus type="search" value={input()} onInput={(e) => setInput(e.target.value)} />
-        <A href="/settings" role="button" class="outline secondary">
+        <A href="/settings" class="secondary">
           Settings
         </A>
       </form>
