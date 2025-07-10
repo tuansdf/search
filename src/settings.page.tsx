@@ -44,7 +44,7 @@ export default function SettingsPage() {
     }, 2000);
   };
 
-  const templateUrl = `${window.location.origin}?q=%s`;
+  const templateUrl = `${window.location.origin}#%s`;
 
   return (
     <div class="settings-container">

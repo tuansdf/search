@@ -29,8 +29,7 @@ const handleSearch = (q: string, isAuto?: boolean) => {
 };
 
 export default function IndexPage() {
-  const search = new URLSearchParams(window.location.search);
-  const q = search.get("q") || "";
+  const q = window.location.hash?.substring(1) || "";
 
   handleSearch(q, true);
 
