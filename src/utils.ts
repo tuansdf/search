@@ -1,4 +1,5 @@
 import { Bang } from "@/types.ts";
+import { data } from "@/data.ts";
 
 export const PLACEHOLDER = "{{{s}}}";
 const DEFAULT_URL = "https://duckduckgo.com/?q={{{s}}}";
@@ -22,9 +23,7 @@ export const validateUrl = (url: string) => {
 
 export const getBangs = async (): Promise<Bang[]> => {
   try {
-    const response = await fetch("/data.json");
-    if (!response.ok) return [];
-    return response.json();
+    return data;
   } catch (e) {
     return [];
   }
