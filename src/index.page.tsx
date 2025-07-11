@@ -31,7 +31,7 @@ const handleSearch = (q: string, isAuto?: boolean) => {
 export default function IndexPage() {
   const q = window.location.hash?.substring(1) || "";
 
-  handleSearch(q, true);
+  handleSearch(decodeURIComponent(q), true);
 
   const [input, setInput] = createSignal<string>(q);
 
