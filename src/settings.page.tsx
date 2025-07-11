@@ -1,6 +1,7 @@
 import { getUrlStore, setUrlStore, validateUrl } from "@/utils.ts";
 import { A } from "@solidjs/router";
 import { createSignal, For, Show } from "solid-js";
+import { CopyableText } from "@/CopyableText.tsx";
 
 const items = [
   {
@@ -54,25 +55,37 @@ export default function SettingsPage() {
       <h3>For Chromium-based browsers</h3>
       <ol>
         <li>
-          Go to settings: <b>chrome://settings/searchEngines</b>
+          Go to settings:{" "}
+          <b>
+            <CopyableText>chrome://settings/searchEngines</CopyableText>
+          </b>
         </li>
         <li>
           Click on <b>Add site search/search engine</b>
         </li>
         <li>
-          Paste in this URL: <b>{templateUrl}</b>
+          Paste in this URL:{" "}
+          <b>
+            <CopyableText>{templateUrl}</CopyableText>
+          </b>
         </li>
       </ol>
       <h3>For Firefox-based browsers (from version 140)</h3>
       <ol>
         <li>
-          Go to settings: <b>about:preferences#search</b>
+          Go to settings:{" "}
+          <b>
+            <CopyableText>about:preferences#search</CopyableText>
+          </b>
         </li>
         <li>
           Click on <b>Add site search/search engine</b>
         </li>
         <li>
-          Paste in this URL: <b>{templateUrl}</b>
+          Paste in this URL:{" "}
+          <b>
+            <CopyableText>{templateUrl}</CopyableText>
+          </b>
         </li>
       </ol>
       <h2>2. Change default search engine</h2>
