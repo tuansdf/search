@@ -10,16 +10,16 @@ const getBang = (q: string): { q: string; t: string | null } => {
 };
 
 const handleSearch = (q: string, isAuto?: boolean) => {
-  if (!q.trim()) return;
+  if (!q) return;
   const bang = getBang(q);
   let searchUrl: string | undefined;
   if (bang.t) {
     searchUrl = String(data.find((item) => item.t === bang.t)?.u || "");
   }
   if (searchUrl) {
-    searchUrl = searchUrl.replace(PLACEHOLDER, bang.q.trim());
+    searchUrl = searchUrl.replace(PLACEHOLDER, encodeURIComponent(bang.q.trim()));
   } else {
-    searchUrl = getUrlStore().replace(PLACEHOLDER, q.trim());
+    searchUrl = getUrlStore().replace(PLACEHOLDER, encodeURIComponent(q.trim()));
   }
   if (isAuto) {
     window.location.replace(searchUrl);
